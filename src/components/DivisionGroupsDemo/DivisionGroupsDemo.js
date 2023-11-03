@@ -19,6 +19,7 @@ function DivisionGroupsDemo({
   const id = React.useId();
 
   const numOfItemsPerGroup = Math.floor(numOfItems / numOfGroups);
+  const totalGroupedItems = numOfItemsPerGroup * numOfGroups;
 
   const remainder = includeRemainderArea ? numOfItems % numOfGroups : null;
 
@@ -61,6 +62,7 @@ function DivisionGroupsDemo({
                   const itemId = `${id}-${
                     index + groupIndex * numOfItemsPerGroup
                   }`;
+
                   return (
                     <motion.div
                       layoutId={itemId}
@@ -78,9 +80,19 @@ function DivisionGroupsDemo({
           <div className={styles.remainderArea}>
             <p className={styles.remainderHeading}>Remainder Area</p>
 
-            {range(remainder).map((index) => {
-              return <div key={index} className={styles.item} />;
-            })}
+            {range(totalGroupedItems, numOfItems)
+              .reverse()
+              .map((index) => {
+                const itemId = `${id}-${index}`;
+
+                return (
+                  <motion.div
+                    layoutId={itemId}
+                    key={itemId}
+                    className={styles.item}
+                  />
+                );
+              })}
           </div>
         )}
 
